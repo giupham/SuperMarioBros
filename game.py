@@ -1,8 +1,9 @@
 import pygame as pg
 import random
 from settings import *
-from player import *
+# from player import *
 from mario import Mario
+from level1 import Level1
 
 class Game:
     def __init__(self):
@@ -17,13 +18,14 @@ class Game:
     def new(self):
         # start a new game
         self.all_sprites = pg.sprite.Group()
-        self.platforms = pg.sprite.Group()
+        # self.platforms = pg.sprite.Group()
         self.player = Mario(game=self)
         self.all_sprites.add(self.player)
-        for plat in PLATFORM_LIST:
-            p = Platform(*plat)
-            self.all_sprites.add(p)
-            self.platforms.add(p)
+        self.bg = Level1(mario=self.player, screen=self.screen, game=self)
+        # for plat in PLATFORM_LIST:
+        #     p = Platform(*plat)
+        #     self.all_sprites.add(p)
+        #     self.platforms.add(p)
         self.run()
 
     def run(self):
@@ -37,35 +39,8 @@ class Game:
 
     def update(self):
         # Game Loop - Update
+        self.bg.update()
         self.all_sprites.update()
-        # check if player hits a platform - only if falling
-        if self.player.vel.y > 0:
-            fall_hits = pg.sprite.spritecollide(self.player, self.platforms, False)
-            if fall_hits:
-                self.player.pos.y = fall_hits[0].rect.top + 1
-                self.player.vel.y = 0
-                self.player.state = STANDING
-
-        # check if player hits a platform - only if jump
-        elif self.player.vel.y < 0:
-            jump_hits = pg.sprite.spritecollide(self.player, self.platforms, False)
-            if jump_hits:
-                # print(jump_hits[0].rect.bottom, self.player.pos.y + self.player.rect.height/2)
-                self.player.pos.y = jump_hits[0].rect.bottom + self.player.rect.height
-                self.player.vel.y = -self.player.vel.y
-
-        # if self.player.vel.x > 0:
-        #     right_hits = pg.sprite.spritecollide(self.player, self.platforms, False)
-        #     if right_hits:
-        #         self.player.pos.x = right_hits[0].rect.left - self.player.rect.width/2
-        #         self.player.vel.x = 0
-        #
-        # elif self.player.vel.x < 0:
-        #     left_hits = pg.sprite.spritecollide(self.player, self.platforms, False)
-        #     if left_hits:
-        #         self.player.pos.x = left_hits[0].rect.right + self.player.rect.width/2
-        #         self.player.vel.x = 0
-
 
     def events(self):
         # Game Loop - events
@@ -79,7 +54,10 @@ class Game:
     def draw(self):
         # Game Loop - draw
         self.screen.fill(BLACK)
+        self.bg.draw()
         self.all_sprites.draw(self.screen)
+
+
         # *after* drawing everything, flip the display
         pg.display.flip()
 

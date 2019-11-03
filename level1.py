@@ -5,14 +5,14 @@ from game_objects.Collider import Collider
 from game_objects.tile import Tile
 from game_objects.coin_box import CoinBox
 from game_objects.finish_flag import Flag
-# from monster import Goomba
+from monster import Goomba
 
 import sys
 
 
 class Level1(Background):
-    def __init__(self, screen):
-        super().__init__(screen=screen, level=0)
+    def __init__(self, mario, screen, game):
+        super().__init__(screen=screen, level=0, mario=mario, game=game)
         self.background = self.bg[0]
         self.background_rect = self.bg[0].get_rect()
         self.view_point_x = -self.background_rect.width * BG_SCALER

@@ -17,6 +17,7 @@ class CoinBox(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x * BG_SCALER
         self.rect.y = y * BG_SCALER
+        print(self.rect.x, self.rect.y )
 
         self.frames_index = 0
 
@@ -30,11 +31,24 @@ class CoinBox(pygame.sprite.Sprite):
         self.state = RESTING
         self.frame_count = 0
 
+    def update(self):
+        if self.state == RESTING:
+            self.resting()
+        elif self.state == REVEALING:
+            self.start_bump()
+        elif self.state == BUMPED:
+            self.bumped()
+        elif self.state == OPENED:
+            self.opened()
+
+        for prize in self.group.sprites():
+            prize.update()
+            prize.draw(self.screen)
+
+        self.frame_count += 1
+
     def draw(self):
         self.screen.blit(self.image, self.rect)
-        for prize in self.group.sprites():
-            prize.draw(self.screen)
-            prize.update()
 
     def get_image(self, x, y, width, height):
         """Extract image from sprite sheet"""
@@ -95,22 +109,6 @@ class CoinBox(pygame.sprite.Sprite):
     def opened(self):
         self.state = EMPTY
         self.prize = EMPTY
-
-    def update(self):
-        if self.state == RESTING:
-            self.resting()
-        elif self.state == REVEALING:
-            self.start_bump()
-        elif self.state == BUMPED:
-            self.bumped()
-        elif self.state == OPENED:
-            self.opened()
-
-        for prize in self.group.sprites():
-            prize.update()
-            prize.draw(self.screen)
-
-        self.frame_count += 1
 
 if __name__ == '__main__':
     pygame.init()

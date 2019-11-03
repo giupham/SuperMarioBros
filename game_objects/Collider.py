@@ -6,6 +6,7 @@ class Collider(pg.sprite.Sprite):
         super().__init__()
         self.image = pg.Surface((width * BG_SCALER, height * BG_SCALER)).convert()
 
+        self.image.fill(RED)
         self.rect = self.image.get_rect()
         self.rect.x = x * BG_SCALER
         self.rect.y = y * BG_SCALER

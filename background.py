@@ -44,6 +44,7 @@ class Background:
         self.panned = False
         self.bg_length = None
         self.bg_height = None
+        self.last_mario_pos_x = self.mario.pos.x
 
     def start(self):
         if not self.panned_right:
@@ -52,34 +53,28 @@ class Background:
             self.pan_left()
 
     def draw(self):
-        # if not self.panned:
-        #     self.start()
-        # else:
-
-        x = self.mario.vel.x
-        self.move_screen(x)
-        # self.blit_rect(frame_index)
         self.screen.blit(self.bg[self.level], (self.x, 0))
-        # print(self.ground)
-
-    def blit_rect(self):
-        # self.blocks.draw(self.screen)
-        self.check_mario_collisions()
-        self.coin_boxes.update()
+        self.blocks.draw(self.screen)
         self.coin_boxes.draw(self.screen)
         self.brick_group.draw(self.screen)
+        self.enemies.draw(self.screen)
+        self.finish_flag.draw()
+
+    def update(self):
+        # if not self.panned:
+        #     self.start()
+        current_mario_pos_x = self.mario.pos.x - self.last_mario_pos_x
+        self.move_screen(current_mario_pos_x)
+        self.check_mario_collisions()
         self.platform_group.update()
         for enemy in self.enemies:
-            # enemy.update()
-            enemy.blitme()
             self.check_enemy_collisions(enemy)
-        # self.platform_group.draw(self.screen)
-        self.finish_flag.draw()
-        for shroom in self.shroom_group:
-            if shroom.state != REVEALING:
-                self.adjust_mushroom_position(shroom)
+        for mushroom in self.shroom_group:
+            if mushroom.state != REVEALING:
+                self.adjust_mushroom_position(mushroom)
 
-        # self.brick_group.draw()
+    def win(self):
+        self.finish_flag.win()
 
     def move_items(self, vel):
         for coin in self.coin_group.sprites():
@@ -102,8 +97,6 @@ class Background:
         if -self.x < self.bg[self.level].get_rect().width - self.screen.get_rect().width:
             self.x -= vel
             self.move_items(vel)
-        else:
-            self.finish_flag.win()
 
     def pan_screen(self):
         if -self.x < self.bg_length:
@@ -260,10 +253,7 @@ class Background:
             if mario_powerup.name == FLOWER:
                 self.mario.mode = FIRE
             if mario_powerup.name == STAR:
-                self.mario.mode = INVINCIBLE
-
-    def win(self):
-        pass
+                self.mario.mode = INVINC
 
     def check_mario_collisions(self):
         self.check_mario_powerup_collisions()

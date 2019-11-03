@@ -1,7 +1,7 @@
 # game options/settings
-TITLE = "Jumpy!"
-WIDTH = 800
-HEIGHT = 600
+TITLE = "Super Mario Bros."
+WIDTH = 1024
+HEIGHT = 575
 FPS = 60
 
 # Player properties
@@ -38,11 +38,11 @@ GLIDING = 'gliding'
 CROUCHING = 'crouching'
 
 # Mario Modes
-NORMAL = 'normal'
-SUPER = 'super'
-FIRE = 'fire'
-INVINC = 'star1'
-INVINC2 = 'star2'
+NORMAL = 'Mario'
+SUPER = 'SuperMario'
+FIRE = 'FireMario'
+INVINC = 'StarMario1'
+INVINC2 = 'StarMario2'
 
 # MARIO DIRECTIONS
 LEFT = 'left'

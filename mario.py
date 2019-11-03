@@ -101,7 +101,7 @@ class Mario(pg.sprite.Sprite):
         print(self.jumpCount)
         if self.jumpCount == 0:
             self.rect.y += 1
-            hits = pg.sprite.spritecollide(self, self.game.platforms, False)
+            hits = pg.sprite.spritecollide(self, self.game.bg.platform_group, False)
             self.rect.y -= 1
             if hits:
                 self.vel.y -= 15
