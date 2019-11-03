@@ -1,16 +1,22 @@
 # game options/settings
 TITLE = "Jumpy!"
-WIDTH = 480
+WIDTH = 800
 HEIGHT = 600
 FPS = 60
 
 # Player properties
 PLAYER_ACC = 0.5
+RUNNING_ACC = 0.8
 PLAYER_FRICTION = -0.12
+
+# FireBall Speed
+FIREBALL_SPEED = 3
+
+FIREBALLS_ALLOWED = 5
 
 # Starting platforms
 PLATFORM_LIST = [(0, HEIGHT - 40, WIDTH, 40),
-                 (WIDTH / 2 - 50, HEIGHT * 3 / 4, 100, 20),
+                 # (WIDTH / 2 - 50, HEIGHT * 3 / 4, 100, 30),
                  (125, HEIGHT - 250, 100, 20),
                  (350, 200, 100, 20),
                  (175, 100, 50, 20)]
@@ -31,14 +37,40 @@ JUMPING = 'jumping'
 GLIDING = 'gliding'
 CROUCHING = 'crouching'
 
+# Mario Modes
+NORMAL = 'normal'
+SUPER = 'super'
+FIRE = 'fire'
+INVINC = 'star1'
+INVINC2 = 'star2'
+
 # MARIO DIRECTIONS
 LEFT = 'left'
 RIGHT = 'right'
 UP = 'up'
 
-# MARIO MODES
-NORMAL = 'mario'
-SUPER = 'supermario'
-FIRE = 'firemario'
-INVINC = 'star1'
-INVINC2 = 'star2'
+BG_SCALER = 2.5
+
+GROUND_HEIGHT = 199
+
+# Coin box status
+RESTING = 'resting'
+BUMPED = 'bumped'
+OPENED = 'opened'
+EMPTY = 'empty'
+
+# Coin Box prizes
+STAR = 'star'
+FLOWER = 'flower'
+MAGICMUSHROOM = 'magic mushroom'
+ONEUPMUSHROOM = 'one up mushroom'
+COIN = 'coin'
+
+
+# Power up status
+REVEALING = 'revealing'
+SLIDING = 'sliding'
+FALLING = 'falling'
+
+
+
