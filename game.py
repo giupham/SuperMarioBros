@@ -44,6 +44,7 @@ class Game:
             if fall_hits:
                 self.player.pos.y = fall_hits[0].rect.top + 1
                 self.player.vel.y = 0
+                self.player.state = STANDING
 
         # check if player hits a platform - only if jump
         elif self.player.vel.y < 0:

@@ -34,3 +34,4 @@ CROUCHING = 'crouching'
 # MARIO DIRECTIONS
 LEFT = 'left'
 RIGHT = 'right'
+UP = 'up'
