@@ -35,3 +35,10 @@ CROUCHING = 'crouching'
 LEFT = 'left'
 RIGHT = 'right'
 UP = 'up'
+
+# MARIO MODES
+NORMAL = 'mario'
+SUPER = 'supermario'
+FIRE = 'firemario'
+INVINC = 'star1'
+INVINC2 = 'star2'
