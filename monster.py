@@ -52,7 +52,6 @@ class Monster(pygame.sprite.Sprite):
 
     #default move function
     def move(self):
-        print('move')
         if self.timer - self.animate_timer > self.duration:
             if self.frame == 0:
                 self.frame += 1

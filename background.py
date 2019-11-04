@@ -76,7 +76,6 @@ class Background:
         self.shroom_group.update()
         self.coin_group.update()
         self.enemies.update()
-        print(self.enemies)
         for enemy in self.enemies:
             self.check_enemy_collisions(enemy)
         for mushroom in self.shroom_group:
@@ -289,7 +288,6 @@ class Background:
             else:
                 self.mario.lives -= 1
                 self.mario.reset()
-                print(self.mario.lives)
 
         if collider:
             if self.mario.vel.y > 0:
@@ -327,7 +325,6 @@ class Background:
         hits = pg.sprite.spritecollideany(self.mario, self.platform_group)
         if hits:
             if round(self.mario.vel.y) == 0 and self.mario.rect.right < hits.rect.left:
-                print('hello')
                 self.mario.rect.right = hits.rect.left + 1
             elif round(self.mario.vel.y) == 0 and self.mario.rect.left >= hits.rect.right:
                 self.mario.rect.left = hits.rect.right - 1
