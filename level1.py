@@ -5,7 +5,7 @@ from game_objects.Collider import Collider
 from game_objects.tile import Tile
 from game_objects.coin_box import CoinBox
 from game_objects.finish_flag import Flag
-from monster import Goomba
+from monster import *
 
 import sys
 
@@ -134,11 +134,12 @@ class Level1(Background):
 
     def setup_enemies(self):
         print('Created')
-        self.enemies.add(Goomba(screen=self.screen, x=512, y=GROUND_HEIGHT))
-        self.enemies.add(Goomba(screen=self.screen, x=659, y=GROUND_HEIGHT))
-        self.enemies.add(Goomba(screen=self.screen, x=1174, y=GROUND_HEIGHT))
-        self.enemies.add(Goomba(screen=self.screen, x=1691, y=GROUND_HEIGHT))
-
+        self.enemies.add(Goomba(screen=self.screen, x=300, y=GROUND_HEIGHT))
+        self.enemies.add(Goomba(screen=self.screen, x=600, y=GROUND_HEIGHT))
+        self.enemies.add(Goomba(screen=self.screen, x=900, y=GROUND_HEIGHT))
+        self.enemies.add(Goomba(screen=self.screen, x=120, y=GROUND_HEIGHT))
+        self.enemies.add(Koopa(screen=self.screen, x= 320, y=GROUND_HEIGHT))
+        self.enemies.add(Cheep(screen=self.screen, x= 500, y=GROUND_HEIGHT))
     # def check_collide(self, mario, collider):
     #     is_collided = pygame.sprite.spritecollideany(mario, collider)
     #     if is_collided:

@@ -16,6 +16,7 @@ class Coin(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.rect.bottom = y
         self.state = REVEALING
+        self.name = COIN
 
         self.box_height = self.rect.y
         # so it moves up

@@ -1,7 +1,7 @@
 import pygame as pg
 from settings import *
 vec = pg.math.Vector2
-
+from fireball import FireBall
 
 class Mario(pg.sprite.Sprite):
 
@@ -17,6 +17,7 @@ class Mario(pg.sprite.Sprite):
         self.crouchCount = 0
 
         self.fireThrowCount = 0
+        self.lives = 3
         self.game = game
         self.reset()
         self.setup_frames()
@@ -38,6 +39,9 @@ class Mario(pg.sprite.Sprite):
             elif self.mode == FIRE:
                 frame = pg.transform.scale(frame, (60, 105)).convert()
             self.frames.append(frame)
+
+        for frame in self.frames:
+            frame.set_colorkey((0, 0, 0))
 
         self.frames_trans1 = []
         for i in range(16):
@@ -122,6 +126,8 @@ class Mario(pg.sprite.Sprite):
         self.slideCount = 0
         self.jumpCount = 0
         self.crouchCount = 0
+        self.fireballs = pg.sprite.Group()
+        self.last = pg.time.get_ticks()
 
         self.fireThrowCount = 0
 
@@ -258,6 +264,9 @@ class Mario(pg.sprite.Sprite):
                 hold_bottom = self.rect.bottom
                 hold_left = self.rect.left
 
+        if keys[pg.K_z]:
+            self.shoot_fireballs()
+
         # APPLY FRICTION
         # Faster you're going the more friction slows you down
         self.acc.x += self.vel.x * PLAYER_FRICTION
@@ -374,6 +383,11 @@ class Mario(pg.sprite.Sprite):
         if self.walkCount >= 15:
             self.walkCount = 0
 
-
-
+    def shoot_fireballs(self):
+        now = pg.time.get_ticks()
+        if now - self.last > 300 and len(self.game.fireballs) <= FIREBALLS_ALLOWED:
+            fireball = FireBall(self, self.game)
+            self.game.all_sprites.add(fireball)
+            self.game.fireballs.add(fireball)
+            self.last = now
 

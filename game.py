@@ -18,6 +18,7 @@ class Game:
     def new(self):
         # start a new game
         self.all_sprites = pg.sprite.Group()
+        self.fireballs = pg.sprite.Group()
         # self.platforms = pg.sprite.Group()
         self.player = Mario(game=self)
         self.all_sprites.add(self.player)

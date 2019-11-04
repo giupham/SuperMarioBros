@@ -7,6 +7,7 @@ class FireBall(pg.sprite.Sprite):
     def __init__(self, mario, game):
         super().__init__()
         self.image = pg.image.load('images/FireMario/fireball.png').convert()
+        self.image.set_colorkey((0, 0, 0))
         self.rect = self.image.get_rect()
         self.mario = mario
         if self.mario.direction == RIGHT:
@@ -30,9 +31,14 @@ class FireBall(pg.sprite.Sprite):
                 or self.rect.y > self.game.screen.get_rect().height or self.rect.y < 0:
             self.kill()
 
-        platform_hit = pg.sprite.spritecollide(self, self.game.platforms, False)
+        platform_hit = pg.sprite.spritecollide(self, self.game.bg.platform_group, False)
         if platform_hit:
             self.bounce = -self.bounce
+
+        enemy = pg.sprite.spritecollideany(self, self.game.bg.enemies, False)
+        if enemy:
+            self.kill()
+            enemy.kill()
 
         self.projectile_cal()
 

@@ -28,6 +28,7 @@ class Background:
 
     def reset(self):
         self.x = 0
+        self.stats = Stats(self.mario)
         self.blocks = pg.sprite.Group()
         self.brick_group = pg.sprite.Group()
         self.coin_boxes = pg.sprite.Group()
@@ -54,19 +55,28 @@ class Background:
 
     def draw(self):
         self.screen.blit(self.bg[self.level], (self.x, 0))
-        self.blocks.draw(self.screen)
         self.coin_boxes.draw(self.screen)
         self.brick_group.draw(self.screen)
         self.enemies.draw(self.screen)
+        self.powerup_group.draw(self.screen)
+        self.shroom_group.draw(self.screen)
+        self.coin_group.draw(self.screen)
         self.finish_flag.draw()
 
     def update(self):
         # if not self.panned:
         #     self.start()
-        current_mario_pos_x = self.mario.pos.x - self.last_mario_pos_x
-        self.move_screen(current_mario_pos_x)
+        current_mario_pos_x = round(self.mario.pos.x - self.last_mario_pos_x)
+        self.last_mario_pos_x = self.mario.pos.x
+        self.move_screen(2)
+        self.move_screen(current_mario_pos_x * 3)
         self.check_mario_collisions()
         self.platform_group.update()
+        self.powerup_group.update()
+        self.shroom_group.update()
+        self.coin_group.update()
+        self.enemies.update()
+        print(self.enemies)
         for enemy in self.enemies:
             self.check_enemy_collisions(enemy)
         for mushroom in self.shroom_group:
@@ -90,13 +100,15 @@ class Background:
         for brick in self.brick_group.sprites():
             brick.rect.x -= vel
         for enemy in self.enemies:
-            enemy.rect.x -= vel
+            enemy.x -= vel
         self.finish_flag.rect.x -= vel
 
     def move_screen(self, vel):
         if -self.x < self.bg[self.level].get_rect().width - self.screen.get_rect().width:
             self.x -= vel
             self.move_items(vel)
+        else:
+            self.win()
 
     def pan_screen(self):
         if -self.x < self.bg_length:
@@ -208,7 +220,7 @@ class Background:
             self.check_if_enemy_falling(enemy, self.platform_group)
 
     def adjust_enemy_y_position(self, enemy, collider):
-        if enemy.rect.bottom + 3 <= collider.rect.bottom:
+        if enemy.rect.bottom >= collider.rect.top:
             if enemy.rect.bottom != collider.rect.top:
                 enemy.rect.bottom = collider.rect.top
 
@@ -237,7 +249,7 @@ class Background:
 
     # UNTESTED
     def check_enemy_collisions(self, enemy):
-        self.check_enemy_x_collisions(enemy)
+        # self.check_enemy_x_collisions(enemy)
 
         self.check_enemy_y_collisions(enemy)
 
@@ -248,14 +260,19 @@ class Background:
         if mario_shroom:
             if mario_shroom.name == MAGICMUSHROOM:
                 self.mario.mode = SUPER
+            if mario_shroom.name == ONEUPMUSHROOM:
+                self.mario.lives += 1
+            mario_shroom.kill()
 
         if mario_powerup:
             if mario_powerup.name == FLOWER:
                 self.mario.mode = FIRE
             if mario_powerup.name == STAR:
                 self.mario.mode = INVINC
+            mario_powerup.kill()
 
     def check_mario_collisions(self):
+        self.check_mario_x_collisions()
         self.check_mario_powerup_collisions()
         enemy = pg.sprite.spritecollideany(self.mario, self.enemies)
         collider = pg.sprite.spritecollideany(self.mario, self.blocks)
@@ -264,7 +281,7 @@ class Background:
 
         if enemy:
             if self.mario.vel.y < 0:
-                self.mario.pos.y = enemy.rect.midbottom
+                self.mario.pos.y = enemy.rect.bottom
                 self.mario.vel.y = 0
                 self.mario.state = STANDING
                 enemy.kill()
@@ -289,6 +306,9 @@ class Background:
                 self.mario.pos.y = coin_box.rect.bottom + self.mario.rect.height
                 self.mario.vel.y = -self.mario.vel.y
                 coin_box.state = REVEALING
+                if coin_box.prize == COIN:
+                    self.stats.coins += 1
+                    self.stats.points += 20
 
         if brick:
             if self.mario.vel.y > 0:
@@ -302,6 +322,15 @@ class Background:
 
         if pg.sprite.collide_rect(self.mario, self.finish_flag):
             self.win()
+
+    def check_mario_x_collisions(self):
+        hits = pg.sprite.spritecollideany(self.mario, self.platform_group)
+        if hits:
+            if round(self.mario.vel.y) == 0 and self.mario.rect.right < hits.rect.left:
+                print('hello')
+                self.mario.rect.right = hits.rect.left + 1
+            elif round(self.mario.vel.y) == 0 and self.mario.rect.left >= hits.rect.right:
+                self.mario.rect.left = hits.rect.right - 1
 
     def mario_standing_on_platform(self, platform):
         self.mario.pos.y = platform.rect.top + 1

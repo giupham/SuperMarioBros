@@ -26,8 +26,8 @@ class Monster(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = WIDTH
         self.rect.bottom = HEIGHT
-        self.x = float(self.rect.x)
-        self.y = float(self.rect.y)
+        self.x = x * BG_SCALER
+        self.y = y * BG_SCALER
         self.dir = dir
         self.set_speed()
 
@@ -52,6 +52,7 @@ class Monster(pygame.sprite.Sprite):
 
     #default move function
     def move(self):
+        print('move')
         if self.timer - self.animate_timer > self.duration:
             if self.frame == 0:
                 self.frame += 1

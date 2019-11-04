@@ -17,13 +17,12 @@ class CoinBox(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x * BG_SCALER
         self.rect.y = y * BG_SCALER
-        print(self.rect.x, self.rect.y )
 
         self.frames_index = 0
 
         # so it moves up
         self.y_vel = 0
-        self.rest_height = y
+        self.rest_height = y * BG_SCALER
         self.gravity = 1.2
         self.state = RESTING
         self.prize = prize
@@ -41,9 +40,9 @@ class CoinBox(pygame.sprite.Sprite):
         elif self.state == OPENED:
             self.opened()
 
-        for prize in self.group.sprites():
-            prize.update()
-            prize.draw(self.screen)
+        # for prize in self.group.sprites():
+        #     prize.update()
+        #     prize.draw(self.screen)
 
         self.frame_count += 1
 

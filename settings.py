@@ -1,7 +1,7 @@
 # game options/settings
 TITLE = "Super Mario Bros."
-WIDTH = 1024
-HEIGHT = 575
+WIDTH = 1200
+HEIGHT = 600
 FPS = 60
 
 # Player properties
